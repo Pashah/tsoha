@@ -1,0 +1,8 @@
+Jokamies:
+Kuka tahansa kuka tulee katsomaan sivustoa.
+
+Osallistuja:
+Rekisteröitynyt käyttäjä, joka tekee erilaisia urheilusuorituksia.
+
+Admin:
+Pisteyttää erilaiset urheilusuoritukset
