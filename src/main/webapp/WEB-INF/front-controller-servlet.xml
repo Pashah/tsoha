@@ -18,8 +18,7 @@
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
-    
-    <jpa:repositories base-package="liikuntaleaderboard.repository" />
 
+    <import resource="database.xml" />
 
 </beans>
