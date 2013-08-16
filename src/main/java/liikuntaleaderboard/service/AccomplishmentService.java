@@ -17,7 +17,10 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
 
     @Override
     public void createAccomplishment(String sport, int lengthInMinutes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Accomplishment accomplishment = new Accomplishment();
+        accomplishment.setSport(sport);
+        accomplishment.setPoints(lengthInMinutes);
+        saveAccomplishment(accomplishment);
     }
 
     @Override
