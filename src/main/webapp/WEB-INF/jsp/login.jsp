@@ -9,7 +9,7 @@
         <h1>Kirjaudu sisään!</h1>
         <form action="${pageContext.request.contextPath}/app/login" method="POST">
             <label>Käyttäjätunnus:</label> <input type="text" name="username" id="username" /><br/>
-            <label>Salasana:</label> <input type="text" name="password" id="password" /><br/>
+            <label>Salasana:</label> <input type="password" name="password" id="password" /><br/>
             <input type="submit" id="login" value="Kirjaudu" />
         </form>
     </body>
