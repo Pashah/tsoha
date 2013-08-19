@@ -1,5 +1,6 @@
 package liikuntaleaderboard.service;
 
+import java.util.List;
 import liikuntaleaderboard.content.Accomplishment;
 import liikuntaleaderboard.repository.AccomplishmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     public void createAccomplishment(String sport, int lengthInMinutes) {
         Accomplishment accomplishment = new Accomplishment();
         accomplishment.setSport(sport);
-        accomplishment.setPoints(lengthInMinutes);
+        accomplishment.setLengthInMinutes(lengthInMinutes);
+        System.out.println(accomplishment.getLengthInMinutes());
         saveAccomplishment(accomplishment);
     }
 
@@ -31,6 +33,23 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     @Override
     public Accomplishment getAccomplishment(Long id) {
         return accomplishmentRepository.findOne(id);
+    }
+
+    @Override
+    public List<Accomplishment> getAccomplishments() {
+        return (List<Accomplishment>)accomplishmentRepository.findAll();
+    }
+
+    @Override
+    public void deleteAccomplishment(Long id) {
+        accomplishmentRepository.delete(id);
+    }
+
+    @Override
+    public void setPoints(Long id, int points) {
+        Accomplishment accomplishment = getAccomplishment(id);
+        accomplishment.setPoints(points);
+        saveAccomplishment(accomplishment);
     }
     
 }

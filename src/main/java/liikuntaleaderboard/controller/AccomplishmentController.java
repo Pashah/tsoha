@@ -24,8 +24,24 @@ public class AccomplishmentController implements AccomplishmentControllerInterfa
     @Override
     @RequestMapping(value = "accomplishment", method = RequestMethod.POST)
     public String saveAccomplishment(@RequestParam(value = "sport", required = true)String sport, 
-                        @RequestParam(value = "lengthInMinutes", required = true)int lengthInMinutes) {
-        accomplishmentServiceInterface.createAccomplishment(sport, lengthInMinutes);
+                        @RequestParam(value = "lengthInMinutes", required = true)String lengthInMinutes) {
+        accomplishmentServiceInterface.createAccomplishment(sport, Integer.parseInt(lengthInMinutes));
+        return "redirect:/app/mainpage";
+    }
+
+    @Override
+    @RequestMapping(value = "deleteAccomplishment", method = RequestMethod.POST)
+    public String deleteAccomplishment(@RequestParam(value = "id", required = true) Long id) {
+        accomplishmentServiceInterface.deleteAccomplishment(id);
+        return "redirect:/app/mainpage";
+    }
+
+    @Override
+    @RequestMapping(value = "setPoints", method = RequestMethod.POST)
+    public String setPoints(@RequestParam(value = "id", required = true) Long id, 
+            @RequestParam(value = "points", required = true)String points) {
+        System.out.println(Integer.parseInt(points));
+        accomplishmentServiceInterface.setPoints(id, Integer.parseInt(points));
         return "redirect:/app/mainpage";
     }
     

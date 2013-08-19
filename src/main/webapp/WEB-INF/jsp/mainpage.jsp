@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -20,6 +21,24 @@
                 Kesto: <input type="text" name="lengthInMinutes" id="lengthInMinutes"/><br/>
                 <input type="submit"/>            
             </form>
-        </div>
+        </div>           
+        <c:forEach var="accomplishments" items="${accomplishments}">
+         <form action="${pageContext.request.contextPath}/app/setPoints?id=${accomplishments.id}" method="POST">
+            <ul>
+               <li>
+                    Laji: ${accomplishments.sport} 
+                    Kesto: ${accomplishments.lengthInMinutes}
+                    Pisteet: ${accomplishments.points}
+                    <input type="text" name="points" id="points"/>
+                    <button type="submit" style="height: 19px; width: 80px">set points</button>
+                    <form action="${pageContext.request.contextPath}/app/deleteAccomplishment?id=${accomplishments.id}" method="POST">
+                        <td>
+                           <button type="submit" style="height: 19px; width: 80px">delete</button>
+                        </td>
+                    </form>   
+               </li>
+            </ul>
+         </form>  
+       </c:forEach>
     </body>
 </html>

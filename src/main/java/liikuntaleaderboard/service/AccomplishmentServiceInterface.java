@@ -4,6 +4,7 @@
  */
 package liikuntaleaderboard.service;
 
+import java.util.List;
 import liikuntaleaderboard.content.Accomplishment;
 
 /**
@@ -14,4 +15,7 @@ public interface AccomplishmentServiceInterface {
     void createAccomplishment(String sport, int lengthInMinutes);
     void saveAccomplishment(Accomplishment accomplishment);
     Accomplishment getAccomplishment(Long id);
+    List<Accomplishment> getAccomplishments();
+    void deleteAccomplishment(Long id);
+    void setPoints(Long id, int points);
 }
