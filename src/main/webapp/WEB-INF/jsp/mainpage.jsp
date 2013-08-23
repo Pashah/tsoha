@@ -8,6 +8,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tervetuloa Liikunta Leaderboardiin</title>
     </head>
+    
+    <a href=${pageContext.request.contextPath}/app/register>Rekisteröidy</a>
 
     <body>
         <p>Moi! Tää on liikunta leaderboardin hieno etusivu! wuup wuup</p>

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -20,18 +22,22 @@ public class User implements Serializable{
     private Long id;
     
     @Column
-    //@NotEmpty
+    @NotEmpty
     private String username;
     
     @Column
-    //@NotEmpty
+    @NotEmpty
     private String password;
     
+    @Email
     @Column
     private String email;
     
     @Column
     private int points;
+    
+    @Column
+    private String role;
 
     public Long getId() {
         return id;
@@ -71,6 +77,14 @@ public class User implements Serializable{
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     
