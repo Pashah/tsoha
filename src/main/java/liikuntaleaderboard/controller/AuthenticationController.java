@@ -41,10 +41,10 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "username", required = true)String username, 
                         @RequestParam(value = "password", required = true)String password, HttpSession session) {
-        if(!password.equals("password")) {
-            return "redirect:login";
+        if(userService.loginCheck(username, password)) {
+            return "redirect:mainpage";
         }
-        return "redirect:mainpage";
+        return "redirect:login";
     }
 
     @Override
