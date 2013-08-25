@@ -45,13 +45,17 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         accomplishment.setUser_id(userId);
         accomplishment.setPoints(countPoints(sport, lengthInMinutes));
         System.out.println(accomplishment.getUser_id());
-        saveAccomplishment(accomplishment);
+        try {
+            accomplishmentSQLRepo.create(accomplishment);
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public void saveAccomplishment(Accomplishment accomplishment) {
+    public void savePoints(Accomplishment accomplishment) {
         try {
-            accomplishmentSQLRepo.save(accomplishment);
+            accomplishmentSQLRepo.savePoints(accomplishment);
         } catch (SQLException ex) {
             Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,7 +108,7 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     public void setPoints(Long id, int points) {
         Accomplishment accomplishment = getAccomplishment(id);
         accomplishment.setPoints(points);
-        saveAccomplishment(accomplishment);
+        savePoints(accomplishment);
     }
 
     private int countPoints(String sport, int lengthInMinutes) {

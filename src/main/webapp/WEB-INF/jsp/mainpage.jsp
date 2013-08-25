@@ -35,11 +35,13 @@
                     Pisteet: ${accomplishments.points}
                     <input type="text" name="points" id="points"/>
                     <button type="submit" style="height: 19px; width: 80px">set points</button>
+                    <!--
                     <form action="${pageContext.request.contextPath}/app/deleteAccomplishment?id=${accomplishments.id}" method="POST">
                         <td>
                            <button type="submit" style="height: 19px; width: 80px">delete</button>
                         </td>
-                    </form>   
+                    </form>
+                    -->
                </li>
             </ul>
          </form>  

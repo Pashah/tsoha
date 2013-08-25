@@ -48,7 +48,7 @@ public class AccomplishmentSQLRepo {
         statement.execute(createUserTableSql);
     }
     
-    public void save(Accomplishment accomplishment) throws SQLException {
+    public void create(Accomplishment accomplishment) throws SQLException {
         Connection connection = createConnection();
         PreparedStatement statement = 
             connection.prepareStatement("INSERT INTO ACCOMPLISHMENT VALUES (?, ?, ?, ?, ?)");
@@ -57,6 +57,17 @@ public class AccomplishmentSQLRepo {
         statement.setLong(3, accomplishment.getUser_id());
         statement.setInt(4, accomplishment.getPoints());
         statement.setInt(5, accomplishment.getLengthInMinutes());
+        statement.execute();
+    }
+    
+    public void savePoints(Accomplishment accomplishment) throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = 
+            connection.prepareStatement("UPDATE ACCOMPLISHMENT " +
+                    "SET POINTS = ?" +
+                    "WHERE ACCOMPLISHMENT_ID = ?");
+        statement.setInt(1, accomplishment.getPoints());
+        statement.setLong(2, accomplishment.getId());
         statement.execute();
     }
         
