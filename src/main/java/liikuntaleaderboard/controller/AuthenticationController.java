@@ -41,7 +41,7 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "username", required = true)String username, 
                         @RequestParam(value = "password", required = true)String password, HttpSession session) {
-        if(userService.loginCheck(username, password)) {
+        if(userService.loginCheck(username, password, session)) {
             return "redirect:mainpage";
         }
         return "redirect:login";
@@ -51,6 +51,9 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     @RequestMapping(value = "mainpage", method = RequestMethod.GET)
     public String viewMainPage(Model model, HttpSession session) {
         model.addAttribute("accomplishments", accomplishmentService.getAccomplishments());
+        if(session != null) {
+            model.addAttribute("userId", session.getAttribute("userId"));
+        }
         return "mainpage";
     }
 

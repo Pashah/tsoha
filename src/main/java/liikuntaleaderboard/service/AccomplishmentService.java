@@ -1,9 +1,16 @@
 package liikuntaleaderboard.service;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import liikuntaleaderboard.content.Accomplishment;
 import liikuntaleaderboard.repository.AccomplishmentRepository;
+import liikuntaleaderboard.repository.AccomplishmentSQLRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,30 +21,78 @@ import org.springframework.stereotype.Service;
 public class AccomplishmentService implements AccomplishmentServiceInterface{
     
     @Autowired
+    @Qualifier("AccomplishmentSQLRepo")
+    private AccomplishmentSQLRepo accomplishmentSQLRepo;
+    
+    @Autowired
     private AccomplishmentRepository accomplishmentRepository;
+    
+    private boolean firstAccomplishment = true;
 
     @Override
-    public void createAccomplishment(String sport, int lengthInMinutes) {
+    public void createAccomplishment(String sport, int lengthInMinutes, Long userId) {
+        if(firstAccomplishment) {
+            try {
+                accomplishmentSQLRepo.createAccomplishmentTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            firstAccomplishment = false;
+        }
         Accomplishment accomplishment = new Accomplishment();
         accomplishment.setSport(sport);
         accomplishment.setLengthInMinutes(lengthInMinutes);
-        System.out.println(accomplishment.getLengthInMinutes());
+        accomplishment.setUser_id(userId);
+        accomplishment.setPoints(countPoints(sport, lengthInMinutes));
+        System.out.println(accomplishment.getUser_id());
         saveAccomplishment(accomplishment);
     }
 
     @Override
     public void saveAccomplishment(Accomplishment accomplishment) {
-        accomplishmentRepository.save(accomplishment);
+        try {
+            accomplishmentSQLRepo.save(accomplishment);
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public Accomplishment getAccomplishment(Long id) {
-        return accomplishmentRepository.findOne(id);
+        ResultSet resultSet = null;
+        try {
+            resultSet = accomplishmentSQLRepo.findOne(id);
+            if(resultSet == null || !resultSet.next()) {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Accomplishment accomplishment = new Accomplishment(resultSet);
+        return accomplishment;
+        //return accomplishmentRepository.findOne(id);
     }
 
     @Override
     public List<Accomplishment> getAccomplishments() {
-        return (List<Accomplishment>)accomplishmentRepository.findAll();
+        ResultSet resultSet = null;
+        try {
+            resultSet = accomplishmentSQLRepo.findAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(resultSet == null) {
+            return null;
+        }
+        List<Accomplishment> accomplishments = new ArrayList<>();
+        try {
+            while (resultSet.next()) {            
+                accomplishments.add(new Accomplishment(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return accomplishments;
     }
 
     @Override
@@ -50,6 +105,14 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         Accomplishment accomplishment = getAccomplishment(id);
         accomplishment.setPoints(points);
         saveAccomplishment(accomplishment);
+    }
+
+    private int countPoints(String sport, int lengthInMinutes) {
+        if(sport.contentEquals("sali") || sport.contentEquals("juoksu")) {
+            return (lengthInMinutes + 5);
+        } else {
+            return lengthInMinutes;
+        }
     }
     
 }

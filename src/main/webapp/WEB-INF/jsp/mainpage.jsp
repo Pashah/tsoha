@@ -10,6 +10,7 @@
     </head>
     
     <a href=${pageContext.request.contextPath}/app/register>Rekisteröidy</a>
+    <a href=${pageContext.request.contextPath}/app/logout>Kirjaudu ulos</a>
 
     <body>
         <p>Moi! Tää on liikunta leaderboardin hieno etusivu! wuup wuup</p>
@@ -21,6 +22,7 @@
             <form action="${pageContext.request.contextPath}/app/accomplishment/" method="POST">
                 Laji: <input type="text" name="sport" id="sport"/><br/>
                 Kesto: <input type="text" name="lengthInMinutes" id="lengthInMinutes"/><br/>
+                <input type="hidden" name="userId" id="userId" value="${userId}"/>
                 <input type="submit"/>            
             </form>
         </div>           

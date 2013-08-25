@@ -24,8 +24,9 @@ public class AccomplishmentController implements AccomplishmentControllerInterfa
     @Override
     @RequestMapping(value = "accomplishment", method = RequestMethod.POST)
     public String saveAccomplishment(@RequestParam(value = "sport", required = true)String sport, 
-                        @RequestParam(value = "lengthInMinutes", required = true)String lengthInMinutes) {
-        accomplishmentServiceInterface.createAccomplishment(sport, Integer.parseInt(lengthInMinutes));
+                        @RequestParam(value = "lengthInMinutes", required = true)String lengthInMinutes,
+                        @RequestParam(value = "userId", required = true)Long userId) {
+        accomplishmentServiceInterface.createAccomplishment(sport, Integer.parseInt(lengthInMinutes), userId);
         return "redirect:/app/mainpage";
     }
 

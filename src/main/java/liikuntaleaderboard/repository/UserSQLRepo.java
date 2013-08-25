@@ -85,7 +85,7 @@ public class UserSQLRepo {
     public ResultSet checkLogin(String username, String password) throws SQLException {
         Connection connection = createConnection();
         PreparedStatement statement = 
-            connection.prepareStatement("SELECT PASSWORD FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
+            connection.prepareStatement("SELECT USER_ID FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
         statement.setString(1, username);
         statement.setString(2, password);
         return statement.executeQuery();

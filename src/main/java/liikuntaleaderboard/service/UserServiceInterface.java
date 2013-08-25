@@ -4,6 +4,7 @@
  */
 package liikuntaleaderboard.service;
 
+import javax.servlet.http.HttpSession;
 import liikuntaleaderboard.content.User;
 
 /**
@@ -13,5 +14,5 @@ import liikuntaleaderboard.content.User;
 public interface UserServiceInterface {
     void register(User user);
     void changeRole(String role, Long id);
-    boolean loginCheck(String username, String password);
+    boolean loginCheck(String username, String password, HttpSession session);
 }

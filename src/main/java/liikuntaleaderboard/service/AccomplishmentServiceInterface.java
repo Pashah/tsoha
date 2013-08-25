@@ -12,7 +12,7 @@ import liikuntaleaderboard.content.Accomplishment;
  * @author Miika
  */
 public interface AccomplishmentServiceInterface {
-    void createAccomplishment(String sport, int lengthInMinutes);
+    void createAccomplishment(String sport, int lengthInMinutes, Long userId);
     void saveAccomplishment(Accomplishment accomplishment);
     Accomplishment getAccomplishment(Long id);
     List<Accomplishment> getAccomplishments();

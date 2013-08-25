@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import liikuntaleaderboard.content.User;
 import liikuntaleaderboard.repository.UserRepository;
 import liikuntaleaderboard.repository.UserSQLRepo;
@@ -61,7 +62,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public boolean loginCheck(String username, String password) {
+    public boolean loginCheck(String username, String password, HttpSession session) {
         ResultSet resultSet = null;
         try {
             resultSet = userSQLRepo.checkLogin(username, password);
@@ -71,7 +72,11 @@ public class UserService implements UserServiceInterface {
         if(resultSet == null)
             return false;
         try {
-            return resultSet.next();
+            if(resultSet.next()) {
+                Long userId = resultSet.getLong("USER_ID");
+                session.setAttribute("userId", userId);
+                return true;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
