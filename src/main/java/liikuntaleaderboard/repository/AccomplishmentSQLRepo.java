@@ -84,4 +84,11 @@ public class AccomplishmentSQLRepo {
         return statement.executeQuery();
     }
     
+    public void delete(Long id) throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM ACCOMPLISHMENT WHERE ACCOMPLISHMENT_ID = ?");
+        statement.setLong(1, id);
+        statement.execute();
+    }
+    
 }

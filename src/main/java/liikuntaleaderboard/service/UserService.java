@@ -29,19 +29,9 @@ public class UserService implements UserServiceInterface {
     @Autowired
     @Qualifier("UserSQLRepo")
     private UserSQLRepo userSQLRepo;
-    
-    private boolean firstUser = true;
 
     @Override
     public void register(User user) {
-        if(firstUser) {
-            try {
-                userSQLRepo.createUserTable();
-                firstUser = false;
-            } catch (SQLException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
         user.setPoints(0);
         user.setRole("user");
         System.out.println(user.getEmail());
@@ -63,12 +53,8 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public boolean loginCheck(String username, String password, HttpSession session) {
-        ResultSet resultSet = null;
-        try {
-            resultSet = userSQLRepo.checkLogin(username, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ResultSet resultSet;
+        resultSet = userSQLRepo.checkLogin(username, password);
         if(resultSet == null)
             return false;
         try {
@@ -81,6 +67,21 @@ public class UserService implements UserServiceInterface {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    @Override
+    public void createUserTable() {
+        try {
+            userSQLRepo.createUserTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void createAdminUser(String username, String password, String email) {
+        User admin = new User(username, password, email, true);
+        userSQLRepo.save(admin);
     }
     
 }

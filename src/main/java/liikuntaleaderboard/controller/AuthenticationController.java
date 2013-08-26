@@ -4,6 +4,7 @@
  */
 package liikuntaleaderboard.controller;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import liikuntaleaderboard.content.User;
@@ -30,6 +31,13 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     private AccomplishmentServiceInterface accomplishmentService;
     @Autowired
     private UserServiceInterface userService;
+    
+    @PostConstruct
+    private void init() {
+        userService.createUserTable();
+        accomplishmentService.createAccomplishmentTable();
+        userService.createAdminUser("admin", "adminPwd", "admin@admin.com");
+    }
 
     @Override
     @RequestMapping(value = "login", method = RequestMethod.GET)

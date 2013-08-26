@@ -37,7 +37,22 @@ public class User implements Serializable{
     private int points;
     
     @Column
-    private String role;
+    private String roleName;
+    
+    public User() {
+        //Default constructor
+    }
+    
+    public User(String username, String password, String email, boolean admin) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        if(admin)
+            this.roleName = "admin";
+        else
+            this.roleName = "user";
+        this.points = 0;
+    }
 
     public Long getId() {
         return id;
@@ -80,11 +95,11 @@ public class User implements Serializable{
     }
 
     public String getRole() {
-        return role;
+        return roleName;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.roleName = role;
     }
     
     

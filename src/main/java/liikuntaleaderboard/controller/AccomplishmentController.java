@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AccomplishmentController implements AccomplishmentControllerInterface{
     
     @Autowired
-    private AccomplishmentServiceInterface accomplishmentServiceInterface;
+    private AccomplishmentServiceInterface accomplishmentService;
 
     @Override
     @RequestMapping(value = "accomplishment", method = RequestMethod.POST)
     public String saveAccomplishment(@RequestParam(value = "sport", required = true)String sport, 
                         @RequestParam(value = "lengthInMinutes", required = true)String lengthInMinutes,
                         @RequestParam(value = "userId", required = true)Long userId) {
-        accomplishmentServiceInterface.createAccomplishment(sport, Integer.parseInt(lengthInMinutes), userId);
+        accomplishmentService.createAccomplishment(sport, Integer.parseInt(lengthInMinutes), userId);
         return "redirect:/app/mainpage";
     }
 
     @Override
     @RequestMapping(value = "deleteAccomplishment", method = RequestMethod.POST)
     public String deleteAccomplishment(@RequestParam(value = "id", required = true) Long id) {
-        accomplishmentServiceInterface.deleteAccomplishment(id);
+        accomplishmentService.deleteAccomplishment(id);
         return "redirect:/app/mainpage";
     }
 
@@ -42,7 +42,7 @@ public class AccomplishmentController implements AccomplishmentControllerInterfa
     public String setPoints(@RequestParam(value = "id", required = true) Long id, 
             @RequestParam(value = "points", required = true)String points) {
         System.out.println(Integer.parseInt(points));
-        accomplishmentServiceInterface.setPoints(id, Integer.parseInt(points));
+        accomplishmentService.setPoints(id, Integer.parseInt(points));
         return "redirect:/app/mainpage";
     }
     

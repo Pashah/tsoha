@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import liikuntaleaderboard.content.User;
 import org.springframework.context.ApplicationContext;
@@ -38,17 +40,21 @@ public class UserSQLRepo {
         }
     }
     
-    public void save(User user) throws SQLException {
-        Connection connection = createConnection();
-        PreparedStatement statement = 
-            connection.prepareStatement("INSERT INTO USER VALUES (?, ?, ?, ?, ?, ?)");
-        statement.setLong(1, id++ + 1);
-        statement.setString(2, user.getUsername());
-        statement.setString(3, user.getPassword());
-        statement.setString(4, user.getEmail());
-        statement.setInt(5, user.getPoints());
-        statement.setString(6, user.getRole());
-        statement.execute();
+    public void save(User user) {
+        try {
+            Connection connection = createConnection();
+            PreparedStatement statement = 
+                connection.prepareStatement("INSERT INTO USER VALUES (?, ?, ?, ?, ?, ?)");
+            statement.setLong(1, id++ + 1);
+            statement.setString(2, user.getUsername());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getEmail());
+            statement.setInt(5, user.getPoints());
+            statement.setString(6, user.getRole());
+            statement.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
   /*  
     public void jdbcSave(User user) {
@@ -82,13 +88,18 @@ public class UserSQLRepo {
         statement.execute(createUserTableSql);
     }
     
-    public ResultSet checkLogin(String username, String password) throws SQLException {
-        Connection connection = createConnection();
-        PreparedStatement statement = 
-            connection.prepareStatement("SELECT USER_ID FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
-        statement.setString(1, username);
-        statement.setString(2, password);
-        return statement.executeQuery();
+    public ResultSet checkLogin(String username, String password) {
+        try {
+            Connection connection = createConnection();
+            PreparedStatement statement = 
+                connection.prepareStatement("SELECT USER_ID FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            return statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }

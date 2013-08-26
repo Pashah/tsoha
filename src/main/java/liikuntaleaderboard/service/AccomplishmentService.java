@@ -26,19 +26,9 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     
     @Autowired
     private AccomplishmentRepository accomplishmentRepository;
-    
-    private boolean firstAccomplishment = true;
 
     @Override
     public void createAccomplishment(String sport, int lengthInMinutes, Long userId) {
-        if(firstAccomplishment) {
-            try {
-                accomplishmentSQLRepo.createAccomplishmentTable();
-            } catch (SQLException ex) {
-                Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            firstAccomplishment = false;
-        }
         Accomplishment accomplishment = new Accomplishment();
         accomplishment.setSport(sport);
         accomplishment.setLengthInMinutes(lengthInMinutes);
@@ -101,7 +91,11 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
 
     @Override
     public void deleteAccomplishment(Long id) {
-        accomplishmentRepository.delete(id);
+        try {
+            accomplishmentSQLRepo.delete(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -116,6 +110,15 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
             return (lengthInMinutes + 5);
         } else {
             return lengthInMinutes;
+        }
+    }
+
+    @Override
+    public void createAccomplishmentTable() {
+        try {
+            accomplishmentSQLRepo.createAccomplishmentTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

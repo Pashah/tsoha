@@ -27,24 +27,20 @@
             </form>
         </div>           
         <c:forEach var="accomplishments" items="${accomplishments}">
-         <form action="${pageContext.request.contextPath}/app/setPoints?id=${accomplishments.id}" method="POST">
-            <ul>
-               <li>
-                    Laji: ${accomplishments.sport} 
-                    Kesto: ${accomplishments.lengthInMinutes}
-                    Pisteet: ${accomplishments.points}
+          <ul>
+            <li>
+                 Laji: ${accomplishments.sport} 
+                 Kesto: ${accomplishments.lengthInMinutes}
+                 Pisteet: ${accomplishments.points}
+                 <form action="${pageContext.request.contextPath}/app/setPoints?id=${accomplishments.id}" method="POST">
                     <input type="text" name="points" id="points"/>
-                    <button type="submit" style="height: 19px; width: 80px">set points</button>
-                    <!--
-                    <form action="${pageContext.request.contextPath}/app/deleteAccomplishment?id=${accomplishments.id}" method="POST">
-                        <td>
-                           <button type="submit" style="height: 19px; width: 80px">delete</button>
-                        </td>
-                    </form>
-                    -->
-               </li>
-            </ul>
-         </form>  
+                    <button type="submit" style="height: 25px; width: 80px">set points</button>
+                 </form>
+                 <form action="${pageContext.request.contextPath}/app/deleteAccomplishment?id=${accomplishments.id}" method="POST">
+                      <button type="submit" style="height: 25px; width: 80px">delete</button>
+                 </form>  
+             </li>
+          </ul>
        </c:forEach>
     </body>
 </html>
