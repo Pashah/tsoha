@@ -8,10 +8,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tervetuloa Liikunta Leaderboardiin</title>
     </head>
-    
-    <a href=${pageContext.request.contextPath}/app/register>Rekisteröidy</a>
-    <a href=${pageContext.request.contextPath}/app/logout>Kirjaudu ulos</a>
-
+    <c:if test="${userId == null}">
+        <a href=${pageContext.request.contextPath}/app/register>Rekisteröidy</a>
+        <a href=${pageContext.request.contextPath}/app/login>Kirjaudu sisään</a>
+    </c:if>
+    <c:if test="${userId != null}">
+        <a href=${pageContext.request.contextPath}/app/logout>Kirjaudu ulos</a>
+    </c:if>
     <body>
         <p>Moi! Tää on liikunta leaderboardin hieno etusivu! wuup wuup</p>
         

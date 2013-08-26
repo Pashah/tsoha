@@ -69,7 +69,7 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:login";
+        return "redirect:mainpage";
     }
 
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
