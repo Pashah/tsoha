@@ -28,22 +28,46 @@
                 <input type="hidden" name="userId" id="userId" value="${userId}"/>
                 <input type="submit"/>            
             </form>
-        </div>           
-        <c:forEach var="accomplishments" items="${accomplishments}">
+        </div>
+        <div>
+            Lisää leaderboard:<br/>
+            <form action="${pageContext.request.contextPath}/app/leaderboard/" method="POST">
+                Nimi: <input type="text" name="leaderboardName" id="leaderboardName"/>
+                <input type="submit"/>
+            </form>
+        </div>
+        <c:forEach var="accomplishment" items="${accomplishments}">
           <ul>
             <li>
-                 Laji: ${accomplishments.sport} 
-                 Kesto: ${accomplishments.lengthInMinutes}
-                 Pisteet: ${accomplishments.points}
-                 <form action="${pageContext.request.contextPath}/app/setPoints?id=${accomplishments.id}" method="POST">
+                 Laji: ${accomplishment.sport} 
+                 Kesto: ${accomplishment.lengthInMinutes}
+                 Pisteet: ${accomplishment.points}
+                 <form action="${pageContext.request.contextPath}/app/setPoints?id=${accomplishment.id}" method="POST">
                     <input type="text" name="points" id="points"/>
                     <button type="submit" style="height: 25px; width: 80px">set points</button>
                  </form>
-                 <form action="${pageContext.request.contextPath}/app/deleteAccomplishment?id=${accomplishments.id}" method="POST">
+                 <form action="${pageContext.request.contextPath}/app/deleteAccomplishment?id=${accomplishment.id}" method="POST">
                       <button type="submit" style="height: 25px; width: 80px">delete</button>
                  </form>  
              </li>
           </ul>
        </c:forEach>
+       <c:forEach var="leaderboard" items="${leaderboards}">
+          <ul>
+                <li>
+                    Leaderboardin nimi: ${leaderboard.name}
+                </li>
+          </ul>
+        <form action="${pageContext.request.contextPath}/app/userToLeaderboard" method="POST">
+            <select name="userIdParam" multiple="true">         
+                <c:forEach var="user" items="${users}">
+                    <option value="<c:out value="${user.id}" />"><c:out value="${user.username}" /></option>
+                </c:forEach>
+            </select>
+           <input type="hidden" name="leaderboardId" id="leaderboardId" value="${leaderboard.id}"/>
+           <input type="submit" name="submit" />
+       </form>
+      </c:forEach>
+                
     </body>
 </html>

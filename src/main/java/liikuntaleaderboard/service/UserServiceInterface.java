@@ -4,6 +4,7 @@
  */
 package liikuntaleaderboard.service;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import liikuntaleaderboard.content.User;
 
@@ -17,4 +18,6 @@ public interface UserServiceInterface {
     boolean loginCheck(String username, String password, HttpSession session);
     void createUserTable();
     void createAdminUser(String username, String password, String email);
+    List<User> getUsers();
+    User getUser(Long id);
 }

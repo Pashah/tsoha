@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 public class LeaderboardSQLRepo {
     
     private int id = 0;
+    private int lu_id = 0;
     
     private Connection createConnection() throws SQLException {
         ApplicationContext appContext = new ClassPathXmlApplicationContext("/META-INF/beans.xml");
@@ -42,6 +43,43 @@ public class LeaderboardSQLRepo {
         Connection connection = createConnection();
         Statement statement = connection.createStatement();
         statement.execute(createLeaderboardTableSql);
+    }
+    
+    public void createLeaderboardUsersTable() throws SQLException {
+        System.out.println("Creating leaderboard users table!");
+        String createLeaderboardTableSql = "CREATE TABLE LEADERBOARD_USERS ("
+                + "LEADERBOARD_USERS_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
+                + "LEADERBOARD_ID LONG NOT NULL REFERENCES LEADERBOARD(LEADERBOARD_ID), "
+                + "USER_ID LONG NOT NULL REFERENCES USER(USER_ID))";
+        Connection connection = createConnection();
+        Statement statement = connection.createStatement();
+        statement.execute(createLeaderboardTableSql);
+    }
+    
+    public void addUserToLeaderboard(Long leaderboardId, Long userId) throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = 
+            connection.prepareStatement("INSERT INTO LEADERBOARD_USERS VALUES (?, ?, ?)");
+        statement.setLong(1, lu_id++ + 1);
+        statement.setLong(2, leaderboardId);
+        statement.setLong(3, userId);
+        statement.execute();
+    }
+    
+    public ResultSet getAllLeaderboardsUsers(Long leaderboardId) throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = 
+            connection.prepareStatement("SELECT USER_ID FROM LEADERBOARD_USERS WHERE LEADERBOARD_ID = ?");
+        statement.setLong(1, leaderboardId);
+        return statement.executeQuery();
+    }
+    
+    public ResultSet getUsersAllLeaderboards(Long userId) throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = 
+            connection.prepareStatement("SELECT LEADERBOARD_ID FROM LEADERBOARD_USERS WHERE USER_ID = ?");
+        statement.setLong(1, userId);
+        return statement.executeQuery();
     }
     
     public void create(Leaderboard leaderboard) throws SQLException {

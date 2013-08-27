@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import liikuntaleaderboard.content.User;
 import liikuntaleaderboard.service.AccomplishmentServiceInterface;
+import liikuntaleaderboard.service.LeaderboardServiceInterface;
 import liikuntaleaderboard.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,11 +32,15 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     private AccomplishmentServiceInterface accomplishmentService;
     @Autowired
     private UserServiceInterface userService;
+    @Autowired
+    private LeaderboardServiceInterface leaderboardService;
     
     @PostConstruct
     private void init() {
         userService.createUserTable();
         accomplishmentService.createAccomplishmentTable();
+        leaderboardService.createLeaderboardTable();
+        leaderboardService.createLeaderboardUsersTable();
         userService.createAdminUser("admin", "adminPwd", "admin@admin.com");
     }
 
@@ -59,6 +64,8 @@ public class AuthenticationController implements AuthenticationControllerInterfa
     @RequestMapping(value = "mainpage", method = RequestMethod.GET)
     public String viewMainPage(Model model, HttpSession session) {
         model.addAttribute("accomplishments", accomplishmentService.getAccomplishments());
+        model.addAttribute("leaderboards", leaderboardService.getLeaderboards());
+        model.addAttribute("users", userService.getUsers());
         if(session != null) {
             model.addAttribute("userId", session.getAttribute("userId"));
         }

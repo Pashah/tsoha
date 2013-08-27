@@ -1,6 +1,10 @@
 package liikuntaleaderboard.content;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,6 +45,19 @@ public class User implements Serializable{
     
     public User() {
         //Default constructor
+    }
+    
+    public User(ResultSet resultSet) {
+        try {
+            this.id = resultSet.getLong("USER_ID");
+            this.username = resultSet.getString("USERNAME");
+            this.password = resultSet.getString("PASSWORD");
+            this.email = resultSet.getString("EMAIL");
+            this.points = resultSet.getInt("POINTS");
+            this.roleName = resultSet.getString("ROLE");
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public User(String username, String password, String email, boolean admin) {

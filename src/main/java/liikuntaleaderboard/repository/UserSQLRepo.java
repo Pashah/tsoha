@@ -56,23 +56,7 @@ public class UserSQLRepo {
             Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-  /*  
-    public void jdbcSave(User user) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        JdbcTemplate template = new JdbcTemplate(getDataSource());
-        template.update(new PreparedStatementCreator() {
-        public PreparedStatement createPreparedStatement(Connection connection)
-         throws SQLException {
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO AUTHOR"
-                       + " (NAME) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, author.name);
-                return ps;
-            }
-        }, keyHolder);
-        Long generatedId = new Long(keyHolder.getKey().longValue());
-        book.setId(generatedId);
-    }
-    */
+
     public void createUserTable() throws SQLException {
         System.out.println("Creating user table!");
         String createUserTableSql = "CREATE TABLE USER ("
@@ -100,6 +84,19 @@ public class UserSQLRepo {
             Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public ResultSet findAll() throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM USER");
+        return statement.executeQuery();
+    }
+    
+    public ResultSet findOne(Long id) throws SQLException {
+        Connection connection = createConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM USER WHERE USER_ID = ?");
+        statement.setLong(1, id);
+        return statement.executeQuery();
     }
     
 }

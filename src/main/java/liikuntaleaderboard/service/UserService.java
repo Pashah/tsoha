@@ -6,6 +6,8 @@ package liikuntaleaderboard.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -82,6 +84,42 @@ public class UserService implements UserServiceInterface {
     public void createAdminUser(String username, String password, String email) {
         User admin = new User(username, password, email, true);
         userSQLRepo.save(admin);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = userSQLRepo.findAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(resultSet == null)
+            return null;
+        List<User> users = new ArrayList<>();
+        try {
+            while(resultSet.next()) {
+                users.add(new User(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
+
+    @Override
+    public User getUser(Long id) {
+        ResultSet resultSet = null;
+        try {
+            resultSet = userSQLRepo.findOne(id);
+            if(resultSet == null || !resultSet.next()) {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        User user = new User(resultSet);
+        return user;
     }
     
 }

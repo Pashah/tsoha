@@ -6,6 +6,7 @@ package liikuntaleaderboard.service;
 
 import java.util.List;
 import liikuntaleaderboard.content.Leaderboard;
+import liikuntaleaderboard.content.User;
 
 /**
  *
@@ -17,4 +18,8 @@ public interface LeaderboardServiceInterface {
     List<Leaderboard> getLeaderboards();
     void deleteLeaderboard(Long id);
     void createLeaderboardTable();
+    void createLeaderboardUsersTable();
+    void addUsersToLeaderboard(Long leaderboardId, List<Long> userIds);
+    List<User> getLeaderboardsAllUsers(Long leaderboardId);
+    List<Leaderboard> getUsersAllLeaderboards(Long userId);
 }
