@@ -115,6 +115,9 @@ public class LeaderboardService implements LeaderboardServiceInterface{
         } catch (SQLException ex) {
             Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(resultSet == null) {
+            return null;
+        }
         List<User> users = new ArrayList<>();
         Long userId;
         try {
