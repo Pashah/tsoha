@@ -58,7 +58,7 @@ public class LeaderboardService implements LeaderboardServiceInterface{
         if(resultSet == null) {
             return null;
         }
-        List<Leaderboard> leaderboards = new ArrayList<>();
+        List<Leaderboard> leaderboards = new ArrayList();
         try {
             while (resultSet.next()) {
                     leaderboards.add(new Leaderboard(resultSet));
@@ -118,7 +118,7 @@ public class LeaderboardService implements LeaderboardServiceInterface{
         if(resultSet == null) {
             return null;
         }
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList();
         Long userId;
         try {
             while(resultSet.next()) {

@@ -78,7 +78,7 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         if(resultSet == null) {
             return null;
         }
-        List<Accomplishment> accomplishments = new ArrayList<>();
+        List<Accomplishment> accomplishments = new ArrayList();
         try {
             while (resultSet.next()) {            
                 accomplishments.add(new Accomplishment(resultSet));

@@ -96,7 +96,7 @@ public class UserService implements UserServiceInterface {
         }
         if(resultSet == null)
             return null;
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList();
         try {
             while(resultSet.next()) {
                 users.add(new User(resultSet));
