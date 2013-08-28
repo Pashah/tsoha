@@ -44,7 +44,18 @@ public class LeaderboardService implements LeaderboardServiceInterface{
 
     @Override
     public Leaderboard getLeaderboard(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ResultSet resultSet = null;
+        try {
+            resultSet = leaderboardSQLRepo.findOne(id);
+            if(!resultSet.next()) {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(resultSet == null)
+            return null;
+        return new Leaderboard(resultSet);
     }
 
     @Override

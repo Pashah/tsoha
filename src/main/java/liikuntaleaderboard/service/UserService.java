@@ -121,5 +121,12 @@ public class UserService implements UserServiceInterface {
         User user = new User(resultSet);
         return user;
     }
+
+    @Override
+    public void updatePoints(Long id, int points) {
+        System.out.println("updatin points userid: " + id + " points: " + points);
+        User user = getUser(id);
+        userSQLRepo.updatePoints(id, user.getPoints() + points);
+    }
     
 }

@@ -7,6 +7,7 @@ package liikuntaleaderboard.controller;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import liikuntaleaderboard.content.Accomplishment;
 import liikuntaleaderboard.content.User;
 import liikuntaleaderboard.service.AccomplishmentServiceInterface;
 import liikuntaleaderboard.service.LeaderboardServiceInterface;
@@ -57,7 +58,7 @@ public class AuthenticationController implements AuthenticationControllerInterfa
         if(userService.loginCheck(username, password, session)) {
             return "redirect:mainpage";
         }
-        return "redirect:login";
+        return "redirect:loginfailed";
     }
 
     @Override
@@ -66,6 +67,7 @@ public class AuthenticationController implements AuthenticationControllerInterfa
         model.addAttribute("accomplishments", accomplishmentService.getAccomplishments());
         model.addAttribute("leaderboards", leaderboardService.getLeaderboards());
         model.addAttribute("users", userService.getUsers());
+        model.addAttribute("accomplishment", new Accomplishment());
         if(session != null) {
             model.addAttribute("userId", session.getAttribute("userId"));
         }
@@ -79,9 +81,10 @@ public class AuthenticationController implements AuthenticationControllerInterfa
         return "redirect:mainpage";
     }
 
-    @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
+    @Override
+    @RequestMapping(value = "loginfailed", method = RequestMethod.GET)
     public String loginfailed(Model model) {
-        model.addAttribute("error", "true");
+        model.addAttribute("error", 1);
         return "login";
     }
 

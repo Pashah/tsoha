@@ -99,4 +99,16 @@ public class UserSQLRepo {
         return statement.executeQuery();
     }
     
+    public void updatePoints(Long id, int points) {
+        try {
+            Connection connection = createConnection();
+            PreparedStatement statement = connection.prepareStatement("UPDATE USER SET POINTS = ? WHERE USER_ID = ?");
+            statement.setInt(1, points);
+            statement.setLong(2, id);
+            statement.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

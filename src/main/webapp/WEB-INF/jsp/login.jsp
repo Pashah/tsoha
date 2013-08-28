@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +11,10 @@
         <form action="${pageContext.request.contextPath}/app/login" method="POST">
             <label>Käyttäjätunnus:</label> <input type="text" name="username" id="username" /><br/>
             <label>Salasana:</label> <input type="password" name="password" id="password" /><br/>
+            <c:if test="${error != null}">
+                Kirjautuminen epäonnistui, tarkista käyttäjätunnus ja salasana!<br/>
+            </c:if>  
             <input type="submit" id="login" value="Kirjaudu" />
-        </form>
+        </form>  
     </body>
 </html>

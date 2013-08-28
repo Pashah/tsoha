@@ -20,4 +20,5 @@ public interface UserServiceInterface {
     void createAdminUser(String username, String password, String email);
     List<User> getUsers();
     User getUser(Long id);
+    void updatePoints(Long id, int points);
 }
