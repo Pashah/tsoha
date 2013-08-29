@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Miika
  */
 @Entity(name="USER")
-public class User implements Serializable{
+public class User implements Comparable<User>, Serializable{
     
     @Id
     @Column
@@ -118,6 +118,13 @@ public class User implements Serializable{
 
     public void setRole(String role) {
         this.roleName = role;
+    }
+
+    @Override
+    public int compareTo(User u1) {
+        int thisPoints = this.getPoints();
+        int anotherPoints = u1.getPoints();
+        return (thisPoints>anotherPoints ? -1 : (thisPoints==anotherPoints ? 0 : 1));
     }
     
     

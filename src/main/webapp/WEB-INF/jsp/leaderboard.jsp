@@ -10,11 +10,14 @@
         <h1>${leaderboard.name}</h1>
         
         <h2>Ranking</h2>
-        
+        <ol>
         <c:forEach var="user" items="${users}">
-            Käyttäjänimi: ${user.username}
-            Pisteet: ${user.points}
+            
+                <li>Käyttäjänimi: ${user.username}
+                    Pisteet: ${user.points}</li>
+            
+            <br/>
         </c:forEach>
-        
+        </ol>
     </body>
 </html>
