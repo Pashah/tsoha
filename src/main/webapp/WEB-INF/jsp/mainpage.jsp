@@ -34,9 +34,12 @@
             Lisää suoritus:<br/>
             <form:form modelAttribute="accomplishment" action="${pageContext.request.contextPath}/app/accomplishment/" method="POST">
                 Laji: <form:input path="sport" type="text" name="sport" id="sport"/><form:errors path="sport" /><br/>
-                Kesto: <form:input path="lengthInMinutes" type="text" name="lengthInMinutes" id="lengthInMinutes"/><form:errors path="lengthInMinutes" /><br/>
+                Kesto minuuteissa: <form:input path="lengthInMinutes" type="text" name="lengthInMinutes" id="lengthInMinutes"/><form:errors path="lengthInMinutes" /><br/>
                 <form:input path="user_id" type="hidden" name="userId" id="userId" value="${userId}"/>
-                <input type="submit"/>            
+                <input type="submit"/>
+                <c:if test="${addAccomplishmentError != null}">
+                    Syötä minuutit kokonaislukuna! <br/>
+                </c:if>
             </form:form>
         </div>
         
@@ -64,6 +67,9 @@
                     <option value="<c:out value="${user.id}" />"><c:out value="${user.username}" /></option>
                 </c:forEach>
             </select>
+            <c:if test="${userToLbError != null}">
+                Valitse vähintään yksi useri, jonka haluat lisätä leaderboardiin!<br/>
+            </c:if>
            <input type="hidden" name="leaderboardId" id="leaderboardId" value="${leaderboard.id}"/>
            <input type="submit" name="submit" value="Lisää käyttäjiä" />
        </form>

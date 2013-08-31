@@ -23,9 +23,6 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     @Autowired
     @Qualifier("AccomplishmentSQLRepo")
     private AccomplishmentSQLRepo accomplishmentSQLRepo;
-    
-    @Autowired
-    private AccomplishmentRepository accomplishmentRepository;
 
     @Override
     public void createAccomplishment(String sport, int lengthInMinutes, Long userId) {
@@ -34,21 +31,12 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         accomplishment.setLengthInMinutes(lengthInMinutes);
         accomplishment.setUser_id(userId);
         accomplishment.setPoints(countPoints(sport, lengthInMinutes));
-        System.out.println(accomplishment.getUser_id());
-        try {
-            accomplishmentSQLRepo.create(accomplishment);
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        accomplishmentSQLRepo.create(accomplishment);
     }
 
     @Override
     public void savePoints(Accomplishment accomplishment) {
-        try {
-            accomplishmentSQLRepo.savePoints(accomplishment);
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        accomplishmentSQLRepo.savePoints(accomplishment);
     }
 
     @Override
@@ -64,26 +52,16 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         }
         Accomplishment accomplishment = new Accomplishment(resultSet);
         return accomplishment;
-        //return accomplishmentRepository.findOne(id);
     }
 
     @Override
     public List<Accomplishment> getAccomplishments() {
-        try {
-            return constructAccomplishments(accomplishmentSQLRepo.findAll());
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return constructAccomplishments(accomplishmentSQLRepo.findAll());
     }
 
     @Override
     public void deleteAccomplishment(Long id) {
-        try {
-            accomplishmentSQLRepo.delete(id);
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        accomplishmentSQLRepo.delete(id);
     }
 
     @Override
@@ -103,21 +81,12 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
 
     @Override
     public void createAccomplishmentTable() {
-        try {
-            accomplishmentSQLRepo.createAccomplishmentTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        accomplishmentSQLRepo.createAccomplishmentTable();
     }
 
     @Override
     public List<Accomplishment> getUsersAccomplishments(Long userId) {
-        try {
-            return constructAccomplishments(accomplishmentSQLRepo.findUsersAll(userId));
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return constructAccomplishments(accomplishmentSQLRepo.findUsersAll(userId));
     }
     
     private List<Accomplishment> constructAccomplishments(ResultSet resultSet) {

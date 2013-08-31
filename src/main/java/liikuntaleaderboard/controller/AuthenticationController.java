@@ -70,6 +70,14 @@ public class AuthenticationController implements AuthenticationControllerInterfa
         model.addAttribute("accomplishment", new Accomplishment());
         if(session != null) {
             model.addAttribute("userId", session.getAttribute("userId"));
+            if(session.getAttribute("userToLbError") != null) {
+                model.addAttribute("userToLbError", "error!");
+                session.setAttribute("userToLbError", null);
+            }
+            if(session.getAttribute("addAccomplishmentError") != null) {
+                model.addAttribute("addAccomplishmentError", "error!");
+                session.setAttribute("addAccomplishmentError", null);
+            }   
         }
         return "mainpage";
     }

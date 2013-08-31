@@ -36,11 +36,7 @@ public class UserService implements UserServiceInterface {
     public void register(User user) {
         user.setPoints(0);
         user.setRole("user");
-        try {
-            userSQLRepo.save(user);
-        } catch (Throwable ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        userSQLRepo.save(user);
     }
 
     @Override
@@ -70,11 +66,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void createUserTable() {
-        try {
-            userSQLRepo.createUserTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        userSQLRepo.createUserTable();
     }
 
     @Override
@@ -85,20 +77,14 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public List<User> getUsers() {
-        try {
-            return constructUsers(userSQLRepo.findAll());
-        } catch (SQLException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return constructUsers(userSQLRepo.findAll());
     }
 
     @Override
     public User getUser(Long id) {
-        ResultSet resultSet = null;
+        ResultSet resultSet = userSQLRepo.findOne(id);
         try {
-            resultSet = userSQLRepo.findOne(id);
-            if(resultSet == null || !resultSet.next()) {
+            if(!resultSet.next()) {
                 return null;
             }
         } catch (SQLException ex) {
@@ -110,7 +96,6 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void updatePoints(Long id, int points) {
-        System.out.println("updatin points userid: " + id + " points: " + points);
         User user = getUser(id);
         userSQLRepo.updatePoints(id, user.getPoints() + points);
     }

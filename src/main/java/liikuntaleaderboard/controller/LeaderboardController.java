@@ -5,6 +5,7 @@
 package liikuntaleaderboard.controller;
 
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import liikuntaleaderboard.service.LeaderboardServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,11 @@ public class LeaderboardController implements LeaderboardControllerInterface {
     @Override
     @RequestMapping(value = "userToLeaderboard", method = RequestMethod.POST)
     public String addUsersToLeaderboard(@RequestParam(value = "leaderboardId", required = true)Long leaderboardId, 
-    @RequestParam(value = "userIdParam", required = true)List<Long> userIds) {
+    @RequestParam(value = "userIdParam", required = false)List<Long> userIds, HttpSession session) {
+        if(userIds == null || userIds.size() < 1) {
+            session.setAttribute("userToLbError", "Error!");
+            return "redirect:/app/mainpage";
+        }
         leaderboardService.addUsersToLeaderboard(leaderboardId, userIds);
         return "redirect:/app/mainpage";
     }

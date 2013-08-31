@@ -48,7 +48,7 @@ public class UserSQLRepo {
         }
     }
 
-    public void createUserTable() throws SQLException {
+    public void createUserTable() {
         System.out.println("Creating user table!");
         String createUserTableSql = "CREATE TABLE USER ("
                 + "USER_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
@@ -59,8 +59,13 @@ public class UserSQLRepo {
                 + "ROLE VARCHAR(255)"
                 + ")";
         Connection connection = connectionHelper.createConnection();
-        Statement statement = connection.createStatement();
-        statement.execute(createUserTableSql);
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            statement.execute(createUserTableSql);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public ResultSet checkLogin(String username, String password) {
@@ -77,17 +82,29 @@ public class UserSQLRepo {
         return null;
     }
     
-    public ResultSet findAll() throws SQLException {
+    public ResultSet findAll() {
         Connection connection = connectionHelper.createConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM USER");
-        return statement.executeQuery();
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement("SELECT * FROM USER");
+            return statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
-    public ResultSet findOne(Long id) throws SQLException {
+    public ResultSet findOne(Long id) {
         Connection connection = connectionHelper.createConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM USER WHERE USER_ID = ?");
-        statement.setLong(1, id);
-        return statement.executeQuery();
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement("SELECT * FROM USER WHERE USER_ID = ?");
+            statement.setLong(1, id);
+            return statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public void updatePoints(Long id, int points) {

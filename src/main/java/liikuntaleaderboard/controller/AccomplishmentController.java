@@ -4,6 +4,7 @@
  */
 package liikuntaleaderboard.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import liikuntaleaderboard.content.Accomplishment;
 import liikuntaleaderboard.service.AccomplishmentServiceInterface;
@@ -30,9 +31,11 @@ public class AccomplishmentController implements AccomplishmentControllerInterfa
 
     @Override
     @RequestMapping(value = "accomplishment", method = RequestMethod.POST)
-    public String saveAccomplishment(@Valid @ModelAttribute("accomplishment") Accomplishment accomplishment,BindingResult bindingResult) {
+    public String saveAccomplishment(@Valid @ModelAttribute("accomplishment") Accomplishment accomplishment,BindingResult bindingResult, 
+            HttpSession session) {
         if(bindingResult.hasErrors()) {
-            return "mainpage";
+            session.setAttribute("addAccomplishmentError", "error!");
+            return "redirect:/app/mainpage";
         }
         accomplishmentService.createAccomplishment(accomplishment.getSport(), accomplishment.getLengthInMinutes(), accomplishment.getUser_id());
         userService.updatePoints(accomplishment.getUser_id(), accomplishment.getLengthInMinutes());

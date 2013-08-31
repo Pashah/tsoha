@@ -5,6 +5,7 @@
 package liikuntaleaderboard.controller;
 
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 /**
@@ -14,6 +15,6 @@ import org.springframework.ui.Model;
 public interface LeaderboardControllerInterface {
     String saveLeaderboard(String name);
     String deleteLeaderboard(Long id);
-    String addUsersToLeaderboard(Long leaderboardId, List<Long> userIds);
+    String addUsersToLeaderboard(Long leaderboardId, List<Long> userIds, HttpSession session);
     String viewLeaderboard(Long id, Model model);
 }

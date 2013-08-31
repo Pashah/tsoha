@@ -36,11 +36,7 @@ public class LeaderboardService implements LeaderboardServiceInterface{
     public void createLeaderboard(String name) {
         Leaderboard leaderboard = new Leaderboard();
         leaderboard.setName(name);
-        try {
-            leaderboardSQLRepo.create(leaderboard);
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        leaderboardSQLRepo.create(leaderboard);
     }
 
     @Override
@@ -61,61 +57,35 @@ public class LeaderboardService implements LeaderboardServiceInterface{
 
     @Override
     public List<Leaderboard> getLeaderboards() {
-        try {
-            return constructLeaderboards(leaderboardSQLRepo.findAll());
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return constructLeaderboards(leaderboardSQLRepo.findAll());
     }
 
     @Override
     public void deleteLeaderboard(Long id) {
-        try {
-            leaderboardSQLRepo.delete(id);
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        leaderboardSQLRepo.delete(id);
     }
 
     @Override
     public void createLeaderboardTable() {
-        try {
-            leaderboardSQLRepo.createLeaderboardTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        leaderboardSQLRepo.createLeaderboardTable();
     }
 
     @Override
     public void createLeaderboardUsersTable() {
-        try {
-            leaderboardSQLRepo.createLeaderboardUsersTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        leaderboardSQLRepo.createLeaderboardUsersTable();
     }
 
     @Override
     public void addUsersToLeaderboard(Long leaderboardId, List<Long> userIds) {
         List<Long> usersNotInLeaderboard = checkUsersBeforeAdd(leaderboardId, userIds);
-        try {
-            for (Long userId : usersNotInLeaderboard) {
-                leaderboardSQLRepo.addUserToLeaderboard(leaderboardId, userId);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
+        for (Long userId : usersNotInLeaderboard) {
+            leaderboardSQLRepo.addUserToLeaderboard(leaderboardId, userId);
         }
     }
 
     @Override
     public List<User> getLeaderboardsAllUsers(Long leaderboardId) {
-        ResultSet resultSet = null;
-        try {
-            resultSet = leaderboardSQLRepo.getAllLeaderboardsUsers(leaderboardId);
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ResultSet resultSet = leaderboardSQLRepo.getAllLeaderboardsUsers(leaderboardId);
         if(resultSet == null) {
             return null;
         }
@@ -129,6 +99,7 @@ public class LeaderboardService implements LeaderboardServiceInterface{
         } catch (SQLException ex) {
             Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Collections.sort(users);
         return users;
     }
 
@@ -164,14 +135,12 @@ public class LeaderboardService implements LeaderboardServiceInterface{
     private List<Long> checkUsersBeforeAdd(Long leaderboardId, List<Long> userIds) {
         List<User> leaderboardsUsers = getLeaderboardsAllUsers(leaderboardId);
         List<Long> idsNotInLeaderboard = new ArrayList(userIds);
-        System.out.println("ids not in lb length before: " + idsNotInLeaderboard.size());
         for (Long userId : userIds) {
             for (User user : leaderboardsUsers) {
                 if(user.getId() == userId)
                     idsNotInLeaderboard.remove(Long.valueOf(userId));
             }
         }
-        System.out.println("ids not in lb length after: " + idsNotInLeaderboard.size());
         return idsNotInLeaderboard;
     }
     

@@ -54,7 +54,6 @@ public class User implements Comparable<User>, Serializable{
             this.password = resultSet.getString("PASSWORD");
             this.email = resultSet.getString("EMAIL");
             this.points = resultSet.getInt("POINTS");
-            System.out.println("user points: " + this.points);
             this.roleName = resultSet.getString("ROLE");
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
