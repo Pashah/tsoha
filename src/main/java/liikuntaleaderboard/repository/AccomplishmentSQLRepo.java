@@ -9,10 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.sql.DataSource;
 import liikuntaleaderboard.content.Accomplishment;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import liikuntaleaderboard.helpers.ConnectionHelper;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,16 +21,7 @@ import org.springframework.stereotype.Component;
 public class AccomplishmentSQLRepo {
     
     private int id = 0;
-    
-        private Connection createConnection() throws SQLException {
-        ApplicationContext appContext = new ClassPathXmlApplicationContext("/META-INF/beans.xml");
-        DataSource dataSource = (DataSource) appContext.getBean("dataSource");
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException ex) {
-            throw new SQLException(ex);
-        }
-    }
+    private ConnectionHelper connectionHelper = new ConnectionHelper();
     
     public void createAccomplishmentTable() throws SQLException {
         System.out.println("Creating accomplishment table!");
@@ -43,13 +32,13 @@ public class AccomplishmentSQLRepo {
                 + "POINTS INT(20), "
                 + "LENGTHINMINUTES INT(20)"
                 + ")";
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         Statement statement = connection.createStatement();
         statement.execute(createUserTableSql);
     }
     
     public void create(Accomplishment accomplishment) throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = 
             connection.prepareStatement("INSERT INTO ACCOMPLISHMENT VALUES (?, ?, ?, ?, ?)");
         statement.setLong(1, id++ + 1);
@@ -61,7 +50,7 @@ public class AccomplishmentSQLRepo {
     }
     
     public void savePoints(Accomplishment accomplishment) throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = 
             connection.prepareStatement("UPDATE ACCOMPLISHMENT " +
                     "SET POINTS = ?" +
@@ -72,23 +61,30 @@ public class AccomplishmentSQLRepo {
     }
         
     public ResultSet findOne(Long id) throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM ACCOMPLISHMENT WHERE ACCOMPLISHMENT_ID = ?");
         statement.setLong(1, id);
         return statement.executeQuery();
     }
     
     public ResultSet findAll() throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM ACCOMPLISHMENT");
         return statement.executeQuery();
     }
     
     public void delete(Long id) throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = connection.prepareStatement("DELETE FROM ACCOMPLISHMENT WHERE ACCOMPLISHMENT_ID = ?");
         statement.setLong(1, id);
         statement.execute();
+    }
+    
+    public ResultSet findUsersAll(Long userId) throws SQLException {
+        Connection connection = connectionHelper.createConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM ACCOMPLISHMENT WHERE USER_ID = ?");
+        statement.setLong(1, userId);
+        return statement.executeQuery();
     }
     
 }

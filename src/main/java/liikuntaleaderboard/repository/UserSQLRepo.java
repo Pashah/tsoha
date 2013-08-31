@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import liikuntaleaderboard.content.User;
+import liikuntaleaderboard.helpers.ConnectionHelper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,21 +29,11 @@ import org.springframework.stereotype.Component;
 public class UserSQLRepo {
     
     private Long id = 0L;
-    
-    
-    private Connection createConnection() throws SQLException {
-        ApplicationContext appContext = new ClassPathXmlApplicationContext("/META-INF/beans.xml");
-        DataSource dataSource = (DataSource) appContext.getBean("dataSource");
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException ex) {
-            throw new SQLException(ex);
-        }
-    }
+    private ConnectionHelper connectionHelper = new ConnectionHelper();
     
     public void save(User user) {
         try {
-            Connection connection = createConnection();
+            Connection connection = connectionHelper.createConnection();
             PreparedStatement statement = 
                 connection.prepareStatement("INSERT INTO USER VALUES (?, ?, ?, ?, ?, ?)");
             statement.setLong(1, id++ + 1);
@@ -67,14 +58,14 @@ public class UserSQLRepo {
                 + "POINTS INT(20), "
                 + "ROLE VARCHAR(255)"
                 + ")";
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         Statement statement = connection.createStatement();
         statement.execute(createUserTableSql);
     }
     
     public ResultSet checkLogin(String username, String password) {
         try {
-            Connection connection = createConnection();
+            Connection connection = connectionHelper.createConnection();
             PreparedStatement statement = 
                 connection.prepareStatement("SELECT USER_ID FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
             statement.setString(1, username);
@@ -87,13 +78,13 @@ public class UserSQLRepo {
     }
     
     public ResultSet findAll() throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM USER");
         return statement.executeQuery();
     }
     
     public ResultSet findOne(Long id) throws SQLException {
-        Connection connection = createConnection();
+        Connection connection = connectionHelper.createConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM USER WHERE USER_ID = ?");
         statement.setLong(1, id);
         return statement.executeQuery();
@@ -101,7 +92,7 @@ public class UserSQLRepo {
     
     public void updatePoints(Long id, int points) {
         try {
-            Connection connection = createConnection();
+            Connection connection = connectionHelper.createConnection();
             PreparedStatement statement = connection.prepareStatement("UPDATE USER SET POINTS = ? WHERE USER_ID = ?");
             statement.setInt(1, points);
             statement.setLong(2, id);

@@ -61,24 +61,12 @@ public class LeaderboardService implements LeaderboardServiceInterface{
 
     @Override
     public List<Leaderboard> getLeaderboards() {
-        ResultSet resultSet = null;
         try {
-            resultSet = leaderboardSQLRepo.findAll();
+            return constructLeaderboards(leaderboardSQLRepo.findAll());
         } catch (SQLException ex) {
             Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(resultSet == null) {
-            return null;
-        }
-        List<Leaderboard> leaderboards = new ArrayList();
-        try {
-            while (resultSet.next()) {
-                    leaderboards.add(new Leaderboard(resultSet));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return leaderboards;
+        return null;
     }
 
     @Override
@@ -110,8 +98,9 @@ public class LeaderboardService implements LeaderboardServiceInterface{
 
     @Override
     public void addUsersToLeaderboard(Long leaderboardId, List<Long> userIds) {
+        List<Long> usersNotInLeaderboard = checkUsersBeforeAdd(leaderboardId, userIds);
         try {
-            for (Long userId : userIds) {
+            for (Long userId : usersNotInLeaderboard) {
                 leaderboardSQLRepo.addUserToLeaderboard(leaderboardId, userId);
             }
         } catch (SQLException ex) {
@@ -140,21 +129,50 @@ public class LeaderboardService implements LeaderboardServiceInterface{
         } catch (SQLException ex) {
             Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Order before sort: ");
-        for (User user : users) {
-            System.out.println(user.getPoints());
-        }
-        Collections.sort(users);
-        System.out.println("Order after sort: ");
-        for (User user : users) {
-            System.out.println(user.getPoints());
-        }
         return users;
     }
 
     @Override
     public List<Leaderboard> getUsersAllLeaderboards(Long userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        List<Leaderboard> leaderboards = new ArrayList();
+        ResultSet resultSet;
+        try {
+            resultSet = leaderboardSQLRepo.getUsersAllLeaderboards(userId);
+            while(resultSet.next()) {
+                leaderboards.add(getLeaderboard(resultSet.getLong("LEADERBOARD_ID")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return leaderboards;
+    }
+    
+    private List<Leaderboard> constructLeaderboards(ResultSet resultSet) {
+        List<Leaderboard> leaderboards = new ArrayList();
+        try {
+            while (resultSet.next()) {
+                leaderboards.add(new Leaderboard(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderboardService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return leaderboards;
+    }
+
+    private List<Long> checkUsersBeforeAdd(Long leaderboardId, List<Long> userIds) {
+        List<User> leaderboardsUsers = getLeaderboardsAllUsers(leaderboardId);
+        List<Long> idsNotInLeaderboard = new ArrayList(userIds);
+        System.out.println("ids not in lb length before: " + idsNotInLeaderboard.size());
+        for (Long userId : userIds) {
+            for (User user : leaderboardsUsers) {
+                if(user.getId() == userId)
+                    idsNotInLeaderboard.remove(Long.valueOf(userId));
+            }
+        }
+        System.out.println("ids not in lb length after: " + idsNotInLeaderboard.size());
+        return idsNotInLeaderboard;
     }
     
 }

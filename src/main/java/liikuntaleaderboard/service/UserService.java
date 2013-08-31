@@ -36,9 +36,6 @@ public class UserService implements UserServiceInterface {
     public void register(User user) {
         user.setPoints(0);
         user.setRole("user");
-        System.out.println(user.getEmail());
-        System.out.println(user.getPassword());
-        System.out.println(user.getUsername());
         try {
             userSQLRepo.save(user);
         } catch (Throwable ex) {
@@ -88,23 +85,12 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public List<User> getUsers() {
-        ResultSet resultSet = null;
         try {
-            resultSet = userSQLRepo.findAll();
+            return constructUsers(userSQLRepo.findAll());
         } catch (SQLException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(resultSet == null)
-            return null;
-        List<User> users = new ArrayList();
-        try {
-            while(resultSet.next()) {
-                users.add(new User(resultSet));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return users;
+        return null;
     }
 
     @Override
@@ -127,6 +113,18 @@ public class UserService implements UserServiceInterface {
         System.out.println("updatin points userid: " + id + " points: " + points);
         User user = getUser(id);
         userSQLRepo.updatePoints(id, user.getPoints() + points);
+    }
+    
+    private List<User> constructUsers(ResultSet resultSet) {
+        List<User> users = new ArrayList();
+        try {
+            while(resultSet.next()) {
+                users.add(new User(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
     }
     
 }

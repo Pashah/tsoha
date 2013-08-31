@@ -69,24 +69,12 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
 
     @Override
     public List<Accomplishment> getAccomplishments() {
-        ResultSet resultSet = null;
         try {
-            resultSet = accomplishmentSQLRepo.findAll();
+            return constructAccomplishments(accomplishmentSQLRepo.findAll());
         } catch (SQLException ex) {
             Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(resultSet == null) {
-            return null;
-        }
-        List<Accomplishment> accomplishments = new ArrayList();
-        try {
-            while (resultSet.next()) {            
-                accomplishments.add(new Accomplishment(resultSet));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return accomplishments;
+        return null;
     }
 
     @Override
@@ -120,6 +108,28 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         } catch (SQLException ex) {
             Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public List<Accomplishment> getUsersAccomplishments(Long userId) {
+        try {
+            return constructAccomplishments(accomplishmentSQLRepo.findUsersAll(userId));
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    private List<Accomplishment> constructAccomplishments(ResultSet resultSet) {
+        List<Accomplishment> accomplishments = new ArrayList();
+        try {
+            while (resultSet.next()) {
+                    accomplishments.add(new Accomplishment(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return accomplishments;
     }
     
 }

@@ -23,6 +23,10 @@
         <c:if test="${userId == null}">
             <p>Kirjaudu sisään tai rekisteröidy niin pääset käyttämään eri ominaisuuksia</p>
         </c:if>
+            <h2>
+                <a href=${pageContext.request.contextPath}/app/viewUserPage>Käyttäjäsivut</a>
+            </h2>    
+            
         <c:if test="${userId != null}">
         <h2>Lisää suoritus</h2>
         
