@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 @Component(value = "AccomplishmentSQLRepo")
 public class AccomplishmentSQLRepo {
     
-    private int id = 0;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     
     public void createAccomplishmentTable() {
@@ -48,12 +47,11 @@ public class AccomplishmentSQLRepo {
         Connection connection = connectionHelper.createConnection();
         try {
             PreparedStatement statement = 
-                connection.prepareStatement("INSERT INTO ACCOMPLISHMENT VALUES (?, ?, ?, ?, ?)");
-            statement.setLong(1, id++ + 1);
-            statement.setString(2, accomplishment.getSport());
-            statement.setLong(3, accomplishment.getUser_id());
-            statement.setInt(4, accomplishment.getPoints());
-            statement.setInt(5, accomplishment.getLengthInMinutes());
+                connection.prepareStatement("INSERT INTO ACCOMPLISHMENT (SPORT, USER_ID, POINTS, LENGTHINMINUTES) VALUES (?, ?, ?, ?)");
+            statement.setString(1, accomplishment.getSport());
+            statement.setLong(2, accomplishment.getUser_id());
+            statement.setInt(3, accomplishment.getPoints());
+            statement.setInt(4, accomplishment.getLengthInMinutes());
             statement.execute();
         } catch (SQLException ex) {
             Logger.getLogger(AccomplishmentSQLRepo.class.getName()).log(Level.SEVERE, null, ex);

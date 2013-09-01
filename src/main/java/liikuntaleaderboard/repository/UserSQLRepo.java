@@ -28,20 +28,18 @@ import org.springframework.stereotype.Component;
 @Component(value = "UserSQLRepo")
 public class UserSQLRepo {
     
-    private Long id = 0L;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     
     public void save(User user) {
         try {
             Connection connection = connectionHelper.createConnection();
             PreparedStatement statement = 
-                connection.prepareStatement("INSERT INTO USER VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setLong(1, id++ + 1);
-            statement.setString(2, user.getUsername());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getEmail());
-            statement.setInt(5, user.getPoints());
-            statement.setString(6, user.getRole());
+                connection.prepareStatement("INSERT INTO USER (username, password, email, points, role) VALUES (?, ?, ?, ?, ?)");
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setInt(4, user.getPoints());
+            statement.setString(5, user.getRole());
             statement.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserSQLRepo.class.getName()).log(Level.SEVERE, null, ex);

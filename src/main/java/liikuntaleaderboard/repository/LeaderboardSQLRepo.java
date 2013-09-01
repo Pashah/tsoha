@@ -22,8 +22,6 @@ import org.springframework.stereotype.Component;
 @Component(value = "LeaderboardSQLRepo")
 public class LeaderboardSQLRepo {
     
-    private int id = 0;
-    private int lu_id = 0;
     private ConnectionHelper connectionHelper = new ConnectionHelper();
     
     public void createLeaderboardTable() {
@@ -61,10 +59,9 @@ public class LeaderboardSQLRepo {
         Connection connection = connectionHelper.createConnection();
         try {
             PreparedStatement statement = 
-                connection.prepareStatement("INSERT INTO LEADERBOARD_USERS VALUES (?, ?, ?)");
-            statement.setLong(1, lu_id++ + 1);
-            statement.setLong(2, leaderboardId);
-            statement.setLong(3, userId);
+                connection.prepareStatement("INSERT INTO LEADERBOARD_USERS (LEADERBOARD_ID, USER_ID) VALUES (?, ?)");
+            statement.setLong(1, leaderboardId);
+            statement.setLong(2, userId);
             statement.execute();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderboardSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,9 +98,8 @@ public class LeaderboardSQLRepo {
         Connection connection = connectionHelper.createConnection();
         try {
             PreparedStatement statement = 
-                connection.prepareStatement("INSERT INTO LEADERBOARD VALUES (?, ?)");
-            statement.setLong(1, id++ + 1);
-            statement.setString(2, leaderboard.getName());
+                connection.prepareStatement("INSERT INTO LEADERBOARD (name) VALUES (?)");
+            statement.setString(1, leaderboard.getName());
             statement.execute();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderboardSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
