@@ -1,0 +1,49 @@
+Tietokohteet:
+
+Tietokohde: User
+Attribuutti:	Arvojoukko:		Selitys:
+id				Kokonaisluku	Identifioi jokaisen käyttäjän
+username		Merkkijono		Käyttäjän käyttäjänimi
+password		Merkkijono		Käyttäjän salasana
+email			Merkkijono		Käyttäjän sähköpostiosoite
+points			Kokonaisluku	Käyttäjän ansaitsemat pisteet, joita hän on saanut eri suorituksista
+roleName		Merkkijono		Käyttäjän roolin nimi, esimerkiksi user tai admin
+
+
+
+Tietokohde: Accomplishment
+Attribuutti:	Arvojoukko:		Selitys:
+id				Kokonaisluku	Identifioi jokaisen suorituksen
+sport			Merkkijono		Suorituksen laji
+user_id			Kokonaisluku	Vierasavain User-tauluun, jokaisella suorituksella on yksi ja vain yksi käyttäjä
+points			Kokonaisluku	Suorituksen pisteet
+lengthinminutes	Kokonaisluku	Suorituksen pituus minuuteissa
+
+Tietokohde: Leaderboard
+Attribuutti:	Arvojoukko:		Selitys:
+Leaderboard_id	Kokonaisluku	Identifioi jokaisen suorituksen
+name			Merkkijono		Leaderboardin nimi
+
+Tietokohde: Leaderboard_users
+Attribuutti:	Arvojoukko:		Selitys:
+id				Kokonaisluku	Identifioi jokaisen suorituksen
+
+
+"CREATE TABLE LEADERBOARD ("
+                + "LEADERBOARD_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
+                + "NAME VARCHAR(255) NOT NULL)"
+				
+"CREATE TABLE LEADERBOARD_USERS ("
+                + "LEADERBOARD_USERS_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
+                + "LEADERBOARD_ID LONG NOT NULL REFERENCES LEADERBOARD(LEADERBOARD_ID), "
+                + "USER_ID LONG NOT NULL REFERENCES USER(USER_ID))"
+
+
+
+
+
+ACCOMPLISHMENT_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
+                + "SPORT VARCHAR(255) NOT NULL, "
+                + "USER_ID LONG NOT NULL REFERENCES USER(USER_ID), "
+                + "POINTS INT(20), "
+                + "LENGTHINMINUTES INT(20)
