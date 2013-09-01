@@ -1,0 +1,92 @@
+6. järjestelmän yleisrakenne:
+
+Tietokantasovellusta tehdessä on noudatettu MVC-mallia. Kontrollerit löytyvät liikuntaleaderboard.controller-packagesta, näkymät löytyvät
+jsp-kansiosta jsp-sivuina, mallit ovat liikuntaleaderboard.content-packagessa. Servicet löytyvät liikuntaleaderboard.service-packagesta ja ne tekevät
+suurimman osan työstä, SQLRepo-luokat ovat liikuntaleaderboard.repository-packagessa ja ne tekevät kantakyselyt.
+
+Sovellus on rakennettu käyttäen apuna Springiä. PrepareStatement
+
+7. Järjestelmän komponentit:
+
+accomplishments.jsp:
+Suoritusten hallintasivu, lisää suoritus, muokkaa suoritusta tai poista suoritus
+
+editLeaderboard.jsp:
+Leaderboardien hallintasivu, lisää leaderboardi, lisää käyttäjiä leaderboardiin
+
+leaderboard.jsp:
+Yhden leaderboardin katseleminen, näyttää leaderboardin tilanteen
+
+login.jsp:
+Sisäänkirjautumissivu
+
+mainpage.jsp:
+Pääsivu, sisältää kaikki leaderboardit ja linkit leaderboardien sivuille
+
+register.jsp:
+Rekisteröitymissivu
+
+userInfopage.jsp:
+Käyttäjäntiedotsivu, näyttää tiedot käyttäjästä, käyttäjän suorituksen sekä käyttäjän leaderboardit
+
+userpage.jsp:
+Näyttää kaikki käyttäjät ja linkit käyttäjien sivuille
+
+Content:
+Accomplishment.java:
+Suoritusluokka, sisältää getterit ja setterit suorituksen ominaisuuksille sekä lisäksi konstruktorit suoritukselle.
+Leaderboard.java:
+Leaderboardluokka, sisältää getterit ja setterit leaderboardin ominaisuuksille sekä lisäksi konstruktorit leaderboardille.
+User.java:
+Käyttäjäluokka, sisältää getterit ja setterit käyttäjän ominaisuuksille sekä lisäksi konstruktorit käyttäjälle sekä comparaattorin käyttäjille.
+
+Controller:
+AccomplishmentController.java:
+Toteuttaa AccomplishmentControllerInterfacen määrittelemän rajapinnan. Kontrolleri kuuntelee suoritukseen liittyviä pyyntöjä ja ohjaa ne eteenpäin serviceille
+sekä generoi näkymät. Mahdollistaa suorituksen poiston, suorituksen tallentamisen, suorituksen pisteiden muuttamisen sekä tulostaa suorituksen muokkaussivun.
+
+AuthenticationController.java:
+Toteuttaa AuthenticationControllerInterfacen määrittelemän rajapinnan. Kontrolleri kuuntelee autentikaatioon liittyviä pyyntöjä. Mahdollistaa rekisteröitymisen,
+sisäänkirjautumisen, uloskirjautumisen. Lisäksi tulostaa pääsivun(mainpage.jsp), rekisteröitymissivun ja sisäänkirjautumissivun.
+
+LeaderboardController.java:
+Toteuttaa LeaderboardControllerInterfacen määrittelemän rajapinnan. Kontrolleri kuuntelee leaderboardiin liittyviä pyyntöjä ja ohjaa ne eteenpäin serviceille
+sekä generöi näkymiä. Mahdollistaa leaderboardin luonnin, leaderboardin poiston(NOT DONE??), käyttäjän lisäämisen leaderboardiin. Generoi leaderboardnäkymän ja
+leaderboardin editointinäkymän.
+
+UserController.java:
+Toteuttaa UserControllerInterfacen määrittelemän rajapinnan. Kontrolleri generoi käyttäjäsivun sekä käyttäjän kontrollointi ja infosivun.
+
+Helpers:
+ConnectionHelper.java:
+Apuluokka, joka luo yhteyden tietokantaan.
+
+Repository:
+AccomplishmentSQLRepo.java:
+Luo Accomplishment-taulun kantaan kun ohjelma käynnistetään, sisältää lisäksi SQL:t suorituksen luomiseen, pisteiden tallentamiseen, suorituksen hakemiseen,
+kaikkien suoritusten hakemiseen, suorituksen poistamiseen ja käyttäjän kaikkien suoritusten hakemiseen
+
+LeaderboardSQLRepo.java:
+Luo Leaderboard-taulun ja Leaderboard_Users-taulun kun ohjelma käynnistetään. Sisältää lisäksi SQL:t käyttäjän lisäämiseen leaderboard_users tauluun, kaikkien
+leaderboardin userien hakemiseen, kaikkien käyttäjän leaderboardien hakemiseen, leaderboardin luomiseen, leaderboardin hakemiseen, kaikkien leaderboardin
+hakemiseen ja leaderboardin poistamiseen(NOT DONE!!)
+
+UserSQLRepo.java
+Luo User-taulun kun ohjelma käynnistetään. Sisältää SQL:t userin luonnille, sisäänkirjautumisen tarkistukselle, kaikkien userien haulle, yhden userin haulle ja
+userin pisteiden päivitykselle.
+
+Service:
+AccomplishmentService.java:
+Toteuttaa AccomplishmentServiceInterface rajapinnan, vastaanottaa Controllerin pyyntöjä, muodostaa niistä kantaan  soveltuvia osia ja antaa nämä osat sitten
+repoille. Mahdollistaa suorituksen luonnin, pisteiden tallennuksen, suorituksen hakemisen, kaikkien suoritusten hakemisen, suorituksen poistamisen,
+käyttäjän suoritusten hakemisen ja Accomplishment-taulun luonnin.
+
+LeaderboardService.java:
+Toteuttaa LeaderboardServiceInterface rajapinnan, vastaanottaa Controllerin pyyntöjä, muodostaa niistä kantaan soveltuvia osia ja antaa nämä osat sitten
+repoille. Mahdollistaa Leaderboard-taulun luonnin, Leaderboard_Users-taulun luonnin, leaderboardien luomisen, leaderboardin haun, kaikkien leaderboardien haun,
+leaderboardin poiston, käyttäjien lisäämisen leaderboardiin, leaderboardin käyttäjien hakemisen ja käyttäjien leaderboardien hakemisen.
+
+UserService.java:
+Toteuttaa UserServiceInterface rajapinnan, vastaanottaa Controllerin pyyntöjä, muodostaa niistä kantaan soveltuvia osia ja antaa nämä osat sitten
+repoille. Mahdollistaa rekisteröinnin, roolin vaihtamisen, sisäänkirjautumisen tarkistamisen, User-taulun luonnin, adminUserin luonnin, tavallisen userin
+luonnin, userin haun, kaikkien usereiden hakemisen ja userin pisteiden päivittämisen.
