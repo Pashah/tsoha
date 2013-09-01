@@ -4,11 +4,33 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" >
         <title>Käyttäjän ${user.username} tiedot</title>
     </head>
     <body>
-        <h1>${user.username} tiedot:</h1>
-        
+        <div id="wrap">
+            <div id="left">
+                <div id="top">
+                    <c:if test="${userId == null}">
+                        <a href=${pageContext.request.contextPath}/app/register>Rekisteröidy</a>
+                        <a href=${pageContext.request.contextPath}/app/login>Kirjaudu sisään</a>
+                    </c:if>
+                    <c:if test="${userId != null}">
+                        <a href=${pageContext.request.contextPath}/app/logout>Kirjaudu ulos</a>
+                    </c:if>
+                </div>
+                <ul>
+                    <li><a href=${pageContext.request.contextPath}/app/mainpage>Pääsivu</a></li>
+                    <c:if test="${userId != null}">
+                        <li><a href=${pageContext.request.contextPath}/app/viewUserPage>Käyttäjäsivut</a></li>
+                        <li><a href=${pageContext.request.contextPath}/app/editLeaderboards>Leaderboardien hallinta</a></li>
+                        <li><a href=${pageContext.request.contextPath}/app/accomplishmentspage>Suoritusten hallinta</a></li>
+                    </c:if>
+                </ul>
+            </div>
+            <div id="center">
+        <h1>Käyttäjän ${user.username} tiedot:</h1>
+        <br/>
         <ul>
             <li>
                 Käyttäjänimi: ${user.username}
@@ -23,9 +45,8 @@
                 Rooli: ${user.role}
             </li>
         </ul>
-        
+        <br/>
         <h3>Leaderboardit: </h3>
-        
         <c:forEach var="leaderboard" items="${leaderboards}">
           <ul>
                 <li>
@@ -34,7 +55,7 @@
           </ul>
         </c:forEach>
         
-        
+        <br/>
         <h3>Suoritukset: </h3>
         
         <c:forEach var="accomplishment" items="${accomplishments}">
@@ -55,6 +76,7 @@
              </li>
          </ul>
        </c:forEach>
-        
+      </div>
+     </div>
     </body>
 </html>

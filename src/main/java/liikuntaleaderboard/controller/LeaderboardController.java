@@ -7,6 +7,7 @@ package liikuntaleaderboard.controller;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import liikuntaleaderboard.service.LeaderboardServiceInterface;
+import liikuntaleaderboard.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,19 +24,21 @@ public class LeaderboardController implements LeaderboardControllerInterface {
     
     @Autowired
     private LeaderboardServiceInterface leaderboardService;
+    @Autowired
+    private UserServiceInterface userService;
 
     @Override
     @RequestMapping(value = "leaderboard", method = RequestMethod.POST)
     public String saveLeaderboard(@RequestParam(value = "leaderboardName", required = true)String name) {
         leaderboardService.createLeaderboard(name);
-        return "redirect:/app/mainpage";
+        return "redirect:/app/editLeaderboards";
     }
 
     @Override
     @RequestMapping(value = "deleteLeaderboard", method = RequestMethod.POST)
     public String deleteLeaderboard(@RequestParam(value = "leaderboardId", required = true)Long id) {
         leaderboardService.deleteLeaderboard(id);
-        return "redirect:/app/mainpage";
+        return "redirect:/app/editLeaderboards";
     }
 
     @Override
@@ -44,10 +47,10 @@ public class LeaderboardController implements LeaderboardControllerInterface {
     @RequestParam(value = "userIdParam", required = false)List<Long> userIds, HttpSession session) {
         if(userIds == null || userIds.size() < 1) {
             session.setAttribute("userToLbError", "Error!");
-            return "redirect:/app/mainpage";
+            return "redirect:/app/editLeaderboards";
         }
         leaderboardService.addUsersToLeaderboard(leaderboardId, userIds);
-        return "redirect:/app/mainpage";
+        return "redirect:/app/editLeaderboards";
     }
 
     @Override
@@ -56,6 +59,21 @@ public class LeaderboardController implements LeaderboardControllerInterface {
         model.addAttribute("leaderboard", leaderboardService.getLeaderboard(id));
         model.addAttribute("users", leaderboardService.getLeaderboardsAllUsers(id));
         return "leaderboard";
+    }
+
+    @Override
+    @RequestMapping(value = "editLeaderboards", method = RequestMethod.GET)
+    public String controlLeaderboards(Model model, HttpSession session) {
+        model.addAttribute("users", userService.getUsers());
+        model.addAttribute("leaderboards", leaderboardService.getLeaderboards());
+        if(session != null) {
+            model.addAttribute("userId", session.getAttribute("userId"));
+            if(session.getAttribute("userToLbError") != null) {
+                model.addAttribute("userToLbError", "error!");
+                session.setAttribute("userToLbError", null);
+            }
+        } 
+        return "editLeaderboard";
     }
     
 }

@@ -28,6 +28,8 @@
                 
             </form:form>
         </table>
-        
+        <br/>
+        <br/>
+        <a href=${pageContext.request.contextPath}/app/mainpage>Takaisin pääsivulle</a>
     </body>
 </html>

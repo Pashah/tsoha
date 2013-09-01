@@ -17,7 +17,7 @@ public interface AccomplishmentServiceInterface {
     Accomplishment getAccomplishment(Long id);
     List<Accomplishment> getAccomplishments();
     void deleteAccomplishment(Long id);
-    void setPoints(Long id, int points);
+    void setPoints(Long id, int points, Long userId);
     void createAccomplishmentTable();
     List<Accomplishment> getUsersAccomplishments(Long userId);
 }

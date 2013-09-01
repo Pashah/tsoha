@@ -15,6 +15,9 @@
                 Kirjautuminen epäonnistui, tarkista käyttäjätunnus ja salasana!<br/>
             </c:if>  
             <input type="submit" id="login" value="Kirjaudu" />
-        </form>  
+        </form>
+            <br/>
+            <br/>
+            <a href=${pageContext.request.contextPath}/app/mainpage>Takaisin pääsivulle</a>
     </body>
 </html>

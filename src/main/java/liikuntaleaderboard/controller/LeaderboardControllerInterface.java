@@ -17,4 +17,5 @@ public interface LeaderboardControllerInterface {
     String deleteLeaderboard(Long id);
     String addUsersToLeaderboard(Long leaderboardId, List<Long> userIds, HttpSession session);
     String viewLeaderboard(Long id, Model model);
+    String controlLeaderboards(Model model, HttpSession session);
 }

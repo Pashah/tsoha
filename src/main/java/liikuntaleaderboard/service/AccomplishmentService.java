@@ -23,6 +23,9 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     @Autowired
     @Qualifier("AccomplishmentSQLRepo")
     private AccomplishmentSQLRepo accomplishmentSQLRepo;
+    
+    @Autowired
+    private UserServiceInterface userService;
 
     @Override
     public void createAccomplishment(String sport, int lengthInMinutes, Long userId) {
@@ -65,8 +68,10 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
     }
 
     @Override
-    public void setPoints(Long id, int points) {
+    public void setPoints(Long id, int points, Long userId) {
         Accomplishment accomplishment = getAccomplishment(id);
+        int subtract = points - accomplishment.getPoints();
+        userService.updatePoints(userId, subtract);
         accomplishment.setPoints(points);
         savePoints(accomplishment);
     }
@@ -98,6 +103,8 @@ public class AccomplishmentService implements AccomplishmentServiceInterface{
         } catch (SQLException ex) {
             Logger.getLogger(AccomplishmentService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(accomplishments.isEmpty())
+            return null;
         return accomplishments;
     }
     
