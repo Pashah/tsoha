@@ -17,12 +17,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author Miika
  */
-@Entity(name="USER")
 public class User implements Comparable<User>, Serializable{
     
-    @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column

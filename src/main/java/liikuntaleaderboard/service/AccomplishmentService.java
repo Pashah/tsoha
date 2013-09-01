@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import liikuntaleaderboard.content.Accomplishment;
-import liikuntaleaderboard.repository.AccomplishmentRepository;
 import liikuntaleaderboard.repository.AccomplishmentSQLRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

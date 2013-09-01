@@ -20,12 +20,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author Miika
  */
-@Entity(name="LEADERBOARD")
 public class Leaderboard implements Serializable{
     
-    @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column

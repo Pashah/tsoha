@@ -17,12 +17,9 @@ import javax.persistence.ManyToOne;
  *
  * @author Miika
  */
-@Entity(name="ACCOMPLISHMENT")
 public class Accomplishment implements Serializable {
     
-    @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column

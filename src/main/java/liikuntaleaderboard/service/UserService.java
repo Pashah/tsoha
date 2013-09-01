@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import liikuntaleaderboard.content.User;
-import liikuntaleaderboard.repository.UserRepository;
 import liikuntaleaderboard.repository.UserSQLRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,8 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserServiceInterface {
     
-    @Autowired
-    private UserRepository userRepository;
+
     
     @Autowired
     @Qualifier("UserSQLRepo")
@@ -41,9 +39,9 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void changeRole(String role, Long id) {
-        User user = userRepository.findOne(id);
+        User user = getUser(id);
         user.setRole(role);
-        userRepository.save(user);
+        userSQLRepo.save(user);
     }
 
     @Override
