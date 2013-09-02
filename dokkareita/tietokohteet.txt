@@ -12,38 +12,22 @@ roleName		Merkkijono		Käyttäjän roolin nimi, esimerkiksi user tai admin
 
 
 Tietokohde: Accomplishment
-Attribuutti:	Arvojoukko:		Selitys:
-id				Kokonaisluku	Identifioi jokaisen suorituksen
-sport			Merkkijono		Suorituksen laji
-user_id			Kokonaisluku	Vierasavain User-tauluun, jokaisella suorituksella on yksi ja vain yksi käyttäjä
-points			Kokonaisluku	Suorituksen pisteet
-lengthinminutes	Kokonaisluku	Suorituksen pituus minuuteissa
+Attribuutti:		Arvojoukko:		Selitys:
+Accomplishment_id	Kokonaisluku	Identifioi jokaisen suorituksen
+sport				Merkkijono		Suorituksen laji
+user_id				Kokonaisluku	Vierasavain User-tauluun, jokaisella suorituksella on yksi ja vain yksi käyttäjä
+points				Kokonaisluku	Suorituksen pisteet
+lengthinminutes		Kokonaisluku	Suorituksen pituus minuuteissa
 
 Tietokohde: Leaderboard
 Attribuutti:	Arvojoukko:		Selitys:
-Leaderboard_id	Kokonaisluku	Identifioi jokaisen suorituksen
+Leaderboard_id	Kokonaisluku	Identifioi jokaisen leaderboardin
 name			Merkkijono		Leaderboardin nimi
 
 Tietokohde: Leaderboard_users
-Attribuutti:	Arvojoukko:		Selitys:
-id				Kokonaisluku	Identifioi jokaisen suorituksen
+Attribuutti:			Arvojoukko:		Selitys:
+Leaderboard_users_id	Kokonaisluku	Identifioi jokaisen leaderboard - users parin
+Leaderboard_id			Kokonaisluku	Vierasavain Leaderboard-tauluun
+user_id					Kokonaisluku	Vierasavain User-tauluun
 
-
-"CREATE TABLE LEADERBOARD ("
-                + "LEADERBOARD_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
-                + "NAME VARCHAR(255) NOT NULL)"
-				
-"CREATE TABLE LEADERBOARD_USERS ("
-                + "LEADERBOARD_USERS_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
-                + "LEADERBOARD_ID LONG NOT NULL REFERENCES LEADERBOARD(LEADERBOARD_ID), "
-                + "USER_ID LONG NOT NULL REFERENCES USER(USER_ID))"
-
-
-
-
-
-ACCOMPLISHMENT_ID LONG NOT NULL GENERATED ALWAYS AS IDENTITY, "
-                + "SPORT VARCHAR(255) NOT NULL, "
-                + "USER_ID LONG NOT NULL REFERENCES USER(USER_ID), "
-                + "POINTS INT(20), "
-                + "LENGTHINMINUTES INT(20)
+Linkkitaulu, joka liittää yhteen kaikki leaderboard - user parit. 
