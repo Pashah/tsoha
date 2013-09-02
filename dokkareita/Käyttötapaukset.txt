@@ -18,13 +18,16 @@ Osallistujan käyttötapaukset:
 
 *Sisäänkirjautuminen:
   Osallistuja voi kirjautua sisään omilla tunnuksillaan
+  
 
 Adminin käyttötapaukset:
 
 *Lajien pisteytys:
   Admin voi pisteyttää eri lajit eri arvoiksi. Esimerkiksi kävelystä saa vähemmän pisteitä kun juoksemisesta
   jne.
+  
+*Suoritusten poisto
+  Admin voi poistaa käyttäjien suorituksia
 
-*Leaderboardin nollaaminen:
-  Admin voi nollata leaderboardin, jolloin kaikki leaderboardin tulokset menevät nollille, mutta Osallistujien
-  suoritukset jäävät kuitenkin tietokantaan vielä.  
+*Leaderboardin poistaminen:
+  Admin voi nollata leaderboardin, jolloin leaderboardi poistuu, mutta suoritukset jäävät jäljelle.
