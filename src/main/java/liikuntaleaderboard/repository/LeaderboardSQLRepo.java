@@ -140,4 +140,15 @@ public class LeaderboardSQLRepo {
         }
     }
     
+    public void deleteLinks(Long id) {
+        Connection connection = connectionHelper.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM LEADERBOARD_USERS WHERE LEADERBOARD_ID = ?");
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderboardSQLRepo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

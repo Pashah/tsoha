@@ -62,6 +62,7 @@ public class LeaderboardService implements LeaderboardServiceInterface{
 
     @Override
     public void deleteLeaderboard(Long id) {
+        leaderboardSQLRepo.deleteLinks(id);
         leaderboardSQLRepo.delete(id);
     }
 
