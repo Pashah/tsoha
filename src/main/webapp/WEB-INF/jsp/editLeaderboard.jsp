@@ -56,6 +56,17 @@
                <input type="submit" name="submit" value="Lisää käyttäjiä" />
            </form>
         </c:forEach>
+        <h3>Poista leaderboard</h3>
+        <c:forEach var="leaderboard" items="${leaderboards}">
+            <ul>
+                <li>
+                    Leaderboard: ${leaderboard.name}
+                    <form action="${pageContext.request.contextPath}/app/deleteLeaderboard?leaderboardId=${leaderboard.id}" method="POST">
+                        <button type="submit" style="height: 25px; width: 80px">Poista suoritus</button>
+                    </form>
+                </li>
+            </ul>
+        </c:forEach>   
         </c:if>
         </div>
        </div>
